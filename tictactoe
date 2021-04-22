@@ -4,3 +4,134 @@ public class TicTacToe { public static void main(String[] args) { String[][]
 board = new String[3][3]; 
 Scanner ns;
     ns = new Scanner(System.in);
+int[][] 
+pos = new int[3][3]; boolean[] isFilled = new boolean[9]; 
+boolean first =
+moveFirst(), isWinner = false, isLoser = false, boardFull = false; 
+int counter = 1;
+//this conditional determines if the user goes first or not
+if (first){
+System.out.println("You get the first turn!");
+} else {
+System.out.println("Your opponent gets the first turn!");
+}
+//this loop fills up both 3d arrays with default values
+for (int i = 0; i <= 2; i++){
+for (int j = 0; j <= 2; j++){
+/* pos holds values 1 to 9 in a 3d array
+* later in this program, it will compare the
+user's choice to a value at pos
+* the program will use the location of the value
+in pos to determine the user's (and opponent's) choice on the
+board
+*/
+pos[i][j] = counter;
+//board is given whitespace for a default value
+board[i][j] = " ";
+counter++;
+}
+}
+//the main loop for interpreting who goes first, and what moves do the user and opponent make
+for (int turn = 0; turn <= 4; turn++){
+int choice;
+//if first returns true, then the user will go first; if not, then the user will go second
+if (first){
+int count = 1;
+/* this conditional is used to prevent the game
+from continuing
+if the board is full and no winner can be
+determined*/
+if (!boardFull && !isWinner && !isLoser){
+//displays the tic tac toe board to the user
+printBoard(board);
+//returns with the user's choice
+choice = userTurn(isFilled);
+//determines the user's input and translates it into a mark on the board
+for (int i = 0; i <= 2; i++){
+for (int j = 0; j <= 2; j++){
+if (pos[i][j] == choice){
+board[i][j] = "X";
+//this array will be used to determine if a position on the board is filled
+isFilled[count-1] = true;
+}
+count++;
+}
+}
+//checks to see if the user has won
+isWinner = winCheck(board);
+if(isWinner){
+System.out.println("You win!");
+break;
+}
+}
+//checks to see if the board is full
+boardFull = fullBoardCheck(board);
+//reset counter to allow isFilled to be adjusted properlycount = 1;
+if (!boardFull && !isWinner && !isLoser){
+choice = oppTurn(isFilled);
+for (int i = 0; i <= 2; i++){
+for (int j = 0; j <= 2; j++){
+if (pos[i][j] == choice){
+board[i][j] = "O";
+isFilled[count-1] = true;
+}
+count++;
+}
+}
+//checks to see if the opponent has won
+isLoser = loseCheck(board);
+if(isLoser){
+System.out.println("You lose!");
+}
+}
+} else {
+int count = 1;
+if (!boardFull && !isWinner && !isLoser){
+choice = oppTurn(isFilled);
+for (int i = 0; i <= 2; i++){
+for (int j = 0; j <= 2; j++){
+if (pos[i][j] == choice){
+board[i][j] = "O";
+isFilled[count-1] = true;
+}
+count++;
+}
+}
+isLoser = loseCheck(board);
+if(isLoser){
+System.out.println("You lose!");
+break;
+}
+}
+boardFull = fullBoardCheck(board);
+count = 1;
+if (!boardFull && !isWinner && !isLoser){
+printBoard(board);
+choice = userTurn(isFilled);
+for (int i = 0; i <= 2; i++){
+for (int j = 0; j <= 2; j++){
+if (pos[i][j] == choice){
+board[i][j] = "X";
+isFilled[count-1] = true;
+}
+count++;
+}
+}
+isWinner = winCheck(board);
+if(isWinner){
+System.out.println("You win!");
+break;
+}
+}
+}
+}
+if (!isWinner && !isLoser){
+System.out.println("This game ended in a tie!");
+}
+}
+//determines if user will move first or not
+static boolean moveFirst(){
+boolean first;
+double n;
+n = Math.random() * 2;
+return n >= 1.0;
