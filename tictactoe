@@ -135,3 +135,197 @@ boolean first;
 double n;
 n = Math.random() * 2;
 return n >= 1.0;
+}
+//prints the board to the user
+static void printBoard(String[][] board){
+System.out.println(board[0][0] + "|" + board[0][1] + "|"
++ board[0][2] + "\n-----");
+System.out.println(board[1][0] + "|" + board[1][1] + "|"
++ board[1][2] + "\n-----");
+System.out.println(board[2][0] + "|" + board[2][1] + "|"
++ board[2][2]);
+}
+//method for getting user choice
+static int userTurn(boolean[] isFilled){
+int choice;
+Scanner ns = new Scanner(System.in);
+System.out.println("Choose a number from 1 to 9!");
+choice = ns.nextInt();
+/*checks to see if user has submitted an invalid number
+or if that slot
+is already filled, and prompts the user for a valid
+choice*/
+while (choice < 1 || choice > 9 || isFilled[choice-1]){
+System.out.println("Either you entered an invalid number, or that slot has already been chosen!");
+System.out.println("You get the first turn!");
+System.out.println("Choose a number from 1 to 9!");
+choice = ns.nextInt();
+}
+return choice;
+}
+//method for getting opponent's choice
+static int oppTurn(boolean[] isFilled){
+int choice;
+choice = (int)Math.round((Math.random() * 9));
+while (choice < 1 || choice > 9 || isFilled[choice-1]){
+choice = (int)Math.round((Math.random() * 9));
+}
+return choice;
+}
+//method for determining if user has won
+static boolean winCheck(String[][] board){
+boolean win = false;
+//a series of nested if statements that reflect the 8 possible win = null scenarios
+if ("X".equals(board[0][0])){
+if ("X".equals(board[0][1])){
+if ("X".equals(board[0][2])){
+win = true;
+}
+} else {
+if ("X".equals(board[1][1])){
+if ("X".equals(board[2][2])){
+win = true;
+}
+} else {
+if ("X".equals(board[1][0])){
+if ("X".equals(board[2][0])){
+win = true;
+}
+}
+}
+}
+} else {
+if ("X".equals(board[1][0])){
+if ("X".equals(board[1][1])){
+if ("X".equals(board[1][2])){
+win = true;
+}
+}
+} else {
+if ("X".equals(board[2][0])){
+if ("X".equals(board[1][1])){
+if ("X".equals(board[0][2])){
+win = true;
+}
+} else {
+if ("X".equals(board[2][1])){
+if ("X".equals(board[2][2])){
+win = true;
+}
+}
+}
+} else {
+if ("X".equals(board[0][1])){
+if ("X".equals(board[1][1])){
+if ("X".equals(board[2][1])){
+win = true;
+}
+}
+} else {
+if ("X".equals(board[0][2])){
+if ("X".equals(board[1][2])){
+if ("X".equals(board[2][2])){
+win = true;
+}
+}
+}
+}
+}
+}
+}
+return win;
+}
+//method for determining if the opponent has won
+static boolean loseCheck(String[][] board){
+boolean lose = false;
+if ("O".equals(board[0][0])){
+if ("O".equals(board[0][1])){
+if ("O".equals(board[0][2])){
+lose = true;
+}
+} else {
+if ("O".equals(board[1][1])){
+if ("O".equals(board[2][2])){
+lose = true;
+}
+} else {
+if ("O".equals(board[1][0])){
+if ("O".equals(board[2][0])){
+lose = true;
+}
+}
+}
+}
+} else {
+if ("O".equals(board[1][0])){
+if ("O".equals(board[1][1])){
+if ("O".equals(board[1][2])){
+lose = true;
+}
+}
+} else {
+if ("O".equals(board[2][0])){
+if ("O".equals(board[1][1])){
+if ("O".equals(board[0][2])){
+lose = true;
+}
+} else {
+if ("O".equals(board[2][1])){
+if ("O".equals(board[2][2])){
+lose = true;
+}
+}
+}
+} else {
+if ("O".equals(board[0][1])){
+if ("O".equals(board[1][1])){
+if ("O".equals(board[2][1])){
+lose = true;
+}
+}
+} else {
+if ("O".equals(board[0][2])){
+if ("O".equals(board[1][2])){
+if ("O".equals(board[2][2])){
+lose = true;
+}
+}
+}
+}
+}
+}
+}
+return lose;
+}
+//method for determining if the board is full
+static boolean fullBoardCheck(String[][] board){
+/* for the purpose of this method, we will assume that
+the board is full
+and try to prove that it is not*/
+boolean full = true, emptySlot = false;
+/* this loop checks every spot in the 3d array board for
+a whitespace character
+* if a whitespace character is detected, then this
+method will return false
+*/
+for (int i = 0; i <= 2; i++){
+for (int j = 0; j <= 2; j++){
+if (" ".equals(board[i][j])){
+/* if any value in the array contains a
+whitespace, emptySlot
+will return true
+*/
+emptySlot = true;
+}
+}
+/* if at any point does emptySlot return true, then
+the board is not
+full, and this conditional will break the loop*/
+if (emptySlot){
+full = false;
+break;
+}
+}
+return full;
+}
+}
